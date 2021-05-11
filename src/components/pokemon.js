@@ -24,6 +24,36 @@ class Pokemone extends React.Component{
                     this.setState({ data : this.state.data.concat(data.results)})     
             })
     }
+
+    renderItem = ({item})=> {
+        return(
+            <View style={styles.container}>
+
+            <View style={{ flex:1, alignItems:'center'}}> 
+            <Image source={pic} style={{height:70,width:70 }}/>
+            </View>
+
+            <Text style={{fontSize:20,fontStyle:"Bold" , textAlign:'center'}}>{item.name}</Text>
+           
+            </View>
+        )
+     }
+
+
+     onEnd = ({ distanceFromEnd }) => {
+        this.setState({
+            offset:this.state.offset+20
+        },()=>{
+            fetch(`https://pokeapi.co/api/v2/pokemon?limit=${this.state.limit}&offset=${this.state.offset}`).
+            then((res)=>
+            res.json())
+            .then((resp)=>{
+                this.setState({ data : this.state.data.concat(resp.results)})
+                })
+            })
+        }
+
+
     render()
     {
         return(
@@ -31,31 +61,10 @@ class Pokemone extends React.Component{
                <FlatList 
                 data={this.state.data} 
                 numColumns={2}
-                renderItem={({item})=> {
-                   return(
-                       <View style={styles.container}>
-
-                        <View style={{ flex:1, alignItems:'center'}}> 
-                        <Image source={pic} style={{height:70,width:70 }}/>
-                        </View>
-
-                        <Text style={{fontSize:20,fontStyle:"Bold" , textAlign:'center'}}>{item.name}</Text>
-                      
-                       </View>
-                   )
-                }}
-                onEndReached={({ distanceFromEnd }) => {
-                this.setState({
-                    offset:this.state.offset+20
-                },()=>{
-                    fetch(`https://pokeapi.co/api/v2/pokemon?limit=${this.state.limit}&offset=${this.state.offset}`).
-                    then((res)=>
-                    res.json())
-                    .then((resp)=>{
-                        this.setState({ data : this.state.data.concat(resp.results)})
-                        })
-                    })
-                }}/>             
+                renderItem={ this.renderItem}
+                onEndReached= { this.onEnd}
+                
+                />             
             </View>
         )
     }

@@ -5,8 +5,6 @@ import Pokemone from './src/components/pokemone';
 
 const App = () => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [ load1 ,setload1] = useState(false);
-  const [ load2 ,setload2] = useState(false);
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -15,28 +13,30 @@ const App = () => {
 
         <View style={styles.header}>
 
-      <Text style={[{flex:1,flexDirection:'row' ,paddingLeft:20 ,color:'white' }]}> Comfortable </Text>
+        <Text style={[{flex:1,flexDirection:'row' ,paddingLeft:20 ,color:'white' }]}> Comfortable </Text>
+        
+        <Switch
+
+            style={[{flexDirection: "row"  ,flex:1}]}
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+        
+        />
       
-      <Switch
-
-        style={[{flexDirection: "row"  ,flex:1}]}
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f4f3f4" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-       
-      />
-      
-       <Text style={[{flexDirection: "row" ,flex:1 ,paddingLeft:50 , color:'white'}]}> Compact </Text>
-       </View>
+        <Text style={[{flexDirection: "row" ,flex:1 ,paddingLeft:50 , color:'white'}]}> Compact </Text>
+        </View>
 
 
-  {isEnabled ? 
-  
-     <Pokemon /> : 
-    
-    <Pokemone /> }
+        {isEnabled ? 
+        
+            <Pokemon /> : 
+            
+            <Pokemone /> 
+            
+        }
        
     </View>
   );
